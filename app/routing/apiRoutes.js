@@ -5,7 +5,7 @@
 // DEPENDENCIES
 // We need to include the path package to get the correct file path for our html
 // ===============================================================================
-var path = require("path") 
+var path = require("path")
 var friends = require("../data/friends.js");
 
 
@@ -39,6 +39,8 @@ module.exports = function (app) {
         console.log(req.body);
         var newFriend = req.body;
         var friendsArray = [];
+        var matchName = '';
+        var matchImage = '';
 
         var lowest = 9999;
         var index = 9999;
@@ -49,15 +51,29 @@ module.exports = function (app) {
             for (var j = 0; j < friends[i].scores.length; j++) {
                 scoresDiff += (Math.abs((friends[i].scores[j]) - parseInt(newFriend.scores[j])));
             }
-            if (scoresDiff < lowest){
-                lowest=scoresDiff;
+            if (scoresDiff < lowest) {
+                lowest = scoresDiff;
                 index = i;
+                // Set name and photo to this friend's property values
+                matchName = friends[i].name;
+                matchImage = friends[i].photo;
             }
-            
+
         }
-        console.log(friends[index]);
-        res.json(friends[index]);
-      
+        //console.log(friends[index]);
+        // res.json(friends[index]);
+
+        friendsArray.push(newFriend);
+
+        // Respond with json of name and photo of the matched friend
+        res.json({
+            status: 'OK',
+            matchName: matchName,
+            matchImage: matchImage
+        });
+
+
     });
 
-}; 
+}
+

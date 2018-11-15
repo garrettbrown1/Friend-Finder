@@ -199,17 +199,22 @@
                 ]
 
             }
-            $.post("/api/surveySubmit", friend, function(data) {
-                console.log(data);
+            $.post("/api/friendsArray", friend).done (function(data) {
+                $("#matchName").text(data.matchName);
+                $('#matchImg').attr("src", data.matchImage);
                 $("#name").text(data.name);
                 $("#photo").attr("src", data.photo);
+                
+
 
             });
 
-        });
+        })
 
 
 
 
     </script>
 </body>
+
+</html>
